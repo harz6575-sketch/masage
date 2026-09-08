@@ -116,7 +116,7 @@ export default async function handler(req, res) {
       data.append('order_id', orderId);
       data.append('country', 'UA');
       data.append('products', phpSerializeProducts(products));
-      data.append('payer_name', name);
+      data.append('bayer_name', name);
       data.append('phone', phone);
 
       data.append('utm_source', cleanSource);
