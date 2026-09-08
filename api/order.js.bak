@@ -1,0 +1,31 @@
+export default async function handler(req, res) {
+  if (req.method !== 'POST') return res.status(405).json({ ok:false, error:'Method not allowed' });
+  const { name, phone, source, medium, campaign, content } = req.body || {};
+  if (!name || !phone) return res.status(400).json({ ok:false, error:'Missing fields' });
+
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+  if (!token || !chatId) return res.status(500).json({ ok:false, error:'Telegram is not configured' });
+
+  const text = [
+    '🔥 НОВА ЗАЯВКА — FASCIA GUN',
+    '',
+    `👤 Ім'я: ${name}`,
+    `📞 Телефон: ${phone}`,
+    '📦 Товар: Перкусійний масажер для тіла',
+    '💰 Ціна: 539 грн',
+    `📊 Джерело: ${source || 'Прямий перехід'}`,
+    `🎯 Кампанія: ${campaign || '—'}`,
+    `📣 Канал: ${medium || '—'}`,
+    `🧩 Оголошення: ${content || '—'}`
+  ].join('\n');
+
+  const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({chat_id:chatId,text})
+  });
+  const result = await response.json();
+  if (!response.ok || !result.ok) return res.status(502).json({ ok:false, error:'Telegram request failed' });
+  return res.status(200).json({ ok:true });
+}
