@@ -118,7 +118,8 @@ export default async function handler(req, res) {
       data.append('products', phpSerializeProducts(products));
       data.append('bayer_name', name);
       data.append('phone', phone);
-
+      data.append('site', 'https://massage.cmoval.store');
+      
       data.append('utm_source', cleanSource);
       data.append('utm_medium', cleanMedium);
       data.append('utm_campaign', cleanCampaign);
