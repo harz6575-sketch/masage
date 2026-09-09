@@ -43,6 +43,12 @@ form.addEventListener('submit', async (e) => {
     });
     const result = await r.json();
     if (!r.ok || !result.ok) throw new Error(result.error || 'Помилка');
+   
+    if (typeof fbq === 'function') {
+  fbq('track', 'Lead');
+}
+    
+    
     status.className = 'form-status success';
     status.textContent = 'Дякуємо! Замовлення прийнято. Менеджер зв’яжеться з вами.';
     form.reset();
