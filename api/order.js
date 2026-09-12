@@ -86,8 +86,28 @@ async function handleLpcrmWebhook(req, res) {
     });
   }
 
-  const body = req.body || {};
+ 
+const body = req.body || {};
 
+console.log(
+  'LPCRM WEBHOOK DEBUG:',
+  JSON.stringify(body, (key, value) => {
+    const k = String(key).toLowerCase();
+
+    if (
+      k.includes('phone') ||
+      k.includes('email') ||
+      k.includes('name') ||
+      k.includes('address') ||
+      k.includes('token') ||
+      k.includes('password')
+    ) {
+      return '[REDACTED]';
+    }
+
+    return value;
+  })
+);
   const status = findValueDeep(body, [
     'status',
     'order_status',
