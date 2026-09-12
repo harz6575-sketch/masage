@@ -48,7 +48,12 @@ function findValueDeep(value, keys, depth = 0) {
 }
 
 function getMetaEventName(status) {
-  const s = clean(status, 160).toLowerCase();
+  const s = String(status || '').toLowerCase().trim();
+
+  // LP-CRM status ID 11 = "Прийнятий"
+  if (s === '11') {
+    return 'QualifiedLead';
+  }
 
   if (
     s.includes('заверш') ||
